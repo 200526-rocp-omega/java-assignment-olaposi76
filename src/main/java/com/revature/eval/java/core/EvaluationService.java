@@ -1,7 +1,14 @@
 package com.revature.eval.java.core;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EvaluationService {
 
@@ -22,9 +29,13 @@ public class EvaluationService {
 
 		public static long toMilesPerHour(double kilometersPerHour) {
 			// TODO Write an implementation for this method declaration
-			return 0;
+			if(kilometersPerHour<0) {
+				return -1;
+			}else {
+				return Math.round(kilometersPerHour*0.6213);
+			}
+			
 		}
-
 		/**
 		 * 1.B Speed Converter - Print Conversion
 		 * 
@@ -42,7 +53,13 @@ public class EvaluationService {
 		 */
 		public static String printConversion(double kilometersPerHour) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			
+			String printMPH = kilometersPerHour+" km/h"+" = "+toMilesPerHour(kilometersPerHour)+" mi/h";
+			if(kilometersPerHour < 0) {
+				return "Invalid Value";
+				
+			}return printMPH;
+
 		}
 	}
 
@@ -68,7 +85,19 @@ public class EvaluationService {
 	 */
 	public String printMegaBytesAndKiloBytes(int XX) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		
+		
+		int kiloBytes = 0;
+		
+		if(kiloBytes<0) {
+			return("Invalid Value");
+		}else {
+			int inMegaBytes = kiloBytes / 1024;
+			int remainingKiloBytes = kiloBytes%1024;
+			String printKilobyte = kiloBytes + " KB " + " = " + inMegaBytes + "MB" + " and " + remainingKiloBytes + " KB ";
+			return printKilobyte;
+		}
+		
 	}
 
 	/**
@@ -91,8 +120,24 @@ public class EvaluationService {
 	 * If the hourOfDay parameter is less than 0 or greater than 23, return false.
 	 */
 	public boolean shouldWakeUp(boolean isBarking, int hourOfDay) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		boolean result = false;
+		if(hourOfDay < 0 || hourOfDay > 23) {
+			return false;
+		}
+		else if(hourOfDay >= 8 && hourOfDay <= 22) {
+			result = false;
+		}
+		else if(hourOfDay >= 1 || hourOfDay <= 7 || hourOfDay >= 23) {
+			if(isBarking ==true) {
+				return  true;
+				
+			}
+			else {
+				result = false;
+			}
+		}
+		return result;
+		
 	}
 
 	/**
@@ -108,8 +153,14 @@ public class EvaluationService {
 	 */
 	public boolean areEqualByThreeDecimalPlaces(double firstNum, double secondNum) {
 		// TODO Write an implementation for this method declaration
-		return false;
-	}
+		if(Math.abs(firstNum - secondNum) < 1E6) {
+			return true;
+			
+		}else {
+			return false;
+		}
+	
+}
 
 	/**
 	 * 5. Teen Number Checker
@@ -124,17 +175,25 @@ public class EvaluationService {
 	static class TeenNumberChecker {
 
 		public static boolean hasTeen(int x, int y, int z) {
-			// TODO Write an implementation for this method declaration
-			return false;
+		
+			if ((x >= 13 && x <= 19) || (y >= 13 && y <= 19) || (z >= 13 && z <= 19)) {
+				return true;
+			}
+			else {
+				
+				return false;
+			}
 		}
-
-		// We can initialize isTeen method first
-		// Then pass the parameter to hasTeen method
 
 		public static boolean isTeen(int number) {
-			// TODO Write an implementation for this method declaration
+			if(number >= 13 && number <=19) {
+				return true;
+			}
+			else {
+				
 			return false;
 		}
+	}
 	}
 
 	/**
@@ -153,9 +212,20 @@ public class EvaluationService {
 	 * ZZ represents the calculated days.
 	 */
 	public String printYearsAndDays(long minutes) {
-		// TODO Write an implementation for this method declaration
-		return null;
-	}
+		
+		long years = (long) (minutes/525600);
+		long temp = (long) (minutes%525600);
+		long days = (long) (temp/1440);
+			
+			if (minutes < 0) {
+				return("Invalid Value");
+			}
+			else {
+				String printResult = (minutes + " min" + " = " + years + " y and " + days + " d");
+				return printResult;
+			}
+		}
+	
 
 	/**
 	 * 7. Number In Word
@@ -167,9 +237,45 @@ public class EvaluationService {
 	 * statement or switch statement whatever is easier for you.
 	 */
 	public String printNumberInWord(int number) {
+		
+		
 		// TODO Write an implementation for this method declaration
-		return null;
+		if(number == 0) {
+			return ("ZERO");
+		}
+		if(number == 1) {
+			return ("ONE");
+		}
+		if(number == 2) {
+			return ("TWO");
+		}
+		if(number == 3) {
+			return ("THREE");
+		}
+		if(number == 4) {
+			return ("FOUR");
+		}
+		if(number == 5) {
+			return ("FIVE");
+		}
+		if(number == 6) {
+			return ("SIX");
+		}
+		if(number == 7) {
+			return ("SEVEN");
+		}
+		if(number == 8) {
+			return ("EIGHT");
+		}
+		if(number == 9) {
+			return ("NINE");
+		}
+		else  {
+			return ("OTHER");
+		
+		}
 	}
+		 
 
 	/**
 	 * 8. Greatest Common Divisor
@@ -192,7 +298,19 @@ public class EvaluationService {
 	 */
 	public int getGreatestCommonDivisor(int first, int second) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		int gcd = 1;
+		
+		if(first < 10 || second < 10) {
+			return -1;
+		}
+		for(int i = 1; i <= first && i <= second; i++) {
+			if(first %i == 0 && second %i == 0) {
+				gcd = i;
+			}
+		}
+		
+		
+		return gcd;
 	}
 
 	/**
@@ -210,7 +328,18 @@ public class EvaluationService {
 	 */
 	public int sumFirstAndLastDigit(int num) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		int number = num;
+		
+		if(number < 0) {
+			return -1;
+		}
+		int lastDigit = number % 10;
+		
+		while(num >= 10) {
+			number = num / 10;
+		}
+		int firstDigit = number;
+		return firstDigit + lastDigit;
 	}
 
 	/**
@@ -219,10 +348,22 @@ public class EvaluationService {
 	 * Without using the StringBuilder or StringBuffer class, write a method that
 	 * reverses a String. Example: reverse("example"); -> "elpmaxe"
 	 */
-	public String reverse(String string) {
+	public String reverse(String x) {
 		// TODO Write an implementation for this method declaration
-		return null;
-	}
+		
+		if(x.length() > 0){
+            String a = x.substring(0,1);
+            if(x.length() > 1){
+                x = reverse(x.substring(1)) + a;
+            }
+            return x;
+        }else
+        {
+            return "No Input";
+        }
+         
+	    }
+
 
 	/**
 	 * 11. Acronyms
@@ -232,8 +373,17 @@ public class EvaluationService {
 	 * long name like Portable Network Graphics to its acronym (PNG).
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		
+		String[]words = phrase.split(" ");
+		String acronymStr = "";
+		
+		for(int i = 0; i < words.length; i++) {
+			if(Character.isUpperCase(words[i].charAt(0)))
+			{
+				acronymStr = acronymStr + words[i].charAt(0);
+			}
+		}
+		return acronymStr;
 	}
 
 	/**
@@ -288,17 +438,26 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
+		
+			if(sideOne==sideTwo && sideOne == sideThree && sideTwo ==sideThree) {
+				return true;
+			}
 			return false;
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
+			
+			if(sideOne==sideTwo || sideOne == sideThree || sideTwo == sideThree) {
+				return true;
+			}
 			return false;
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
+		
+			if(sideOne != sideTwo && sideOne != sideThree && sideTwo != sideThree) {
+				return true;
+			}
 			return false;
 		}
 
@@ -320,8 +479,21 @@ public class EvaluationService {
 	 */
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		int point = 0;
+		char scoreTable[] = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
+		for(char each : string.toCharArray()) {
+			if(each >= 'a' && each <= 'z') {
+				point += scoreTable[each - 'a'];
+			}
+			if(each >= 'A' && each <= 'Z') {
+				point += scoreTable[each - 'A'];
+			}
+		}
+		
+	
+	return point;
 	}
+
 
 	/**
 	 * 14. Clean the Phone Number
@@ -357,7 +529,20 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		return null;
+		
+		String sPhoneNumber = "0/91)?[7-9][0-9]{9}";
+		CharSequence inputStr = string;
+		
+		Pattern pattern = Pattern.compile(sPhoneNumber);
+		Matcher matcher = pattern.matcher(inputStr);
+		
+		if(matcher.matches()) {
+			return "Valid";
+		}
+		else {
+			return "Not Valid";
+		}
+		
 	}
 
 	/**
@@ -370,7 +555,22 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String[] stringArrays = string.split(" ");
+		Map<String,Integer> map = new HashMap<String, Integer>();
+		Set<String> words = new HashSet<String>(Arrays.asList(stringArrays));
+		int count = 0;
+		for(String word : words) {
+			for(String temp : stringArrays) {
+				if(word.equals(temp)) {
+					++count;
+				}
+			}
+			map.put(word, count);
+			count = 0;
+		}
+		
+		
+		return map;
 	}
 
 	/**
@@ -388,8 +588,26 @@ public class EvaluationService {
 	 * a number is an Armstrong number.
 	 */
 	public boolean isArmstrongNumber(int input) {
-		return false;
-	}
+	    int number = input, originalNumber, remainder, result = 0, n = 0;
+
+        originalNumber = number;
+
+        for (;originalNumber != 0; originalNumber /= 10, ++n);
+
+        originalNumber = number;
+
+        for (;originalNumber != 0; originalNumber /= 10)
+        {
+            remainder = originalNumber % 10;
+            result += Math.pow(remainder, n);
+        }
+
+        if(result == number)
+            return true;
+        else
+            return false;
+    }
+
 
 	/**
 	 * 17. Prime Factors
@@ -400,8 +618,16 @@ public class EvaluationService {
 	 * Note that 1 is not a prime number.
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		long n = l;
+		List<Long>factors = new ArrayList<Long>();
+		for(long i = 2; i <= n; i++) {
+			while(n % i ==0) {
+				factors.add(i);
+				n /= i;
+			}
+		}
+	
+		return factors;
 	}
 
 	/**
@@ -417,7 +643,21 @@ public class EvaluationService {
 	 */
 	public int calculateNthPrime(int k) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		int num, count, i;
+		num = 1;
+		count = 0;
+		while(count < k) {
+			num = num + 1;
+			for(i = 2; i <= num; i++) {
+				if(num % i == 0) {
+					break;
+				}
+			}
+			if(i == num) {
+				count = count + 1;
+			}
+		}
+		return num;
 	}
 
 	/**
@@ -434,7 +674,27 @@ public class EvaluationService {
 	 */
 	public boolean isPangram(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+	String lowercaseInput = string.toLowerCase();
+		
+		Map<Character, Integer> frequencyMap = new HashMap<>();
+		
+		for(char c : lowercaseInput.toCharArray()) {
+			if(frequencyMap.containsKey(c)) {
+				frequencyMap.put(c,  1 + frequencyMap.get(c));
+			}else {
+				frequencyMap.put(c,  1);
+			}
+			
+		}
+		
+		for(char c = 'a' ; c <= 'z' ; c++) {
+			if(!frequencyMap.containsKey(c)) {
+				return false;
+			}
+		}
+		return true;
+		
+		
 	}
 
 	/**
@@ -449,9 +709,29 @@ public class EvaluationService {
 	 * The sum of these multiples is 78.
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
-		return 0;
+		
+		List<Integer> list = new ArrayList<>();
+		
+		int sum = 0;
+		
+		for(int x = 0; x < i; x++) {
+			
+			for(int y = 0; y <set.length; y++) {
+				
+				if(x %set[y] == 0) {
+					
+					if(!list.contains(x)) {
+						list.add(x);
+						sum += x;
+					}
+				}
+			}
+			
+		}
+			
+		return sum;
 	}
-	
+
 	/**
 	 * 21. Three Magic Numbers
 	 * 
@@ -463,7 +743,15 @@ public class EvaluationService {
 	 */
 	
 	public int[] threeLuckyNumbers() {
-		return null;
+		
+		
+		int[]arr = new int[3];
+	
+		for(int i = 0; i < 3; i++) {
+			arr[i]= (int)Math.random() * (100 - 1) + 1;
+		}
+		
+		return arr;
 	}
 	
 	/*
@@ -477,6 +765,7 @@ public class EvaluationService {
 	 */
 	
 	public int guessingGame(int x, int y) {
-		return 0;
+		
+		return (int)Math.random() * (y-x) + x;
 	}
 }
