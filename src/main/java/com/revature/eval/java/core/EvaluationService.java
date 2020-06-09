@@ -83,22 +83,23 @@ public class EvaluationService {
 	 * If the parameter kiloBytes is less than 0 then print the text "Invalid
 	 * Value".
 	 */
+	
 	public String printMegaBytesAndKiloBytes(int XX) {
 		// TODO Write an implementation for this method declaration
 		
+		int inMegaBytes = (int) (XX/1024);
+		int remainingKiloBytes = (int) (XX %1024);
 		
-		int kiloBytes = 0;
-		
-		if(kiloBytes<0) {
+		if(XX<0) {
 			return("Invalid Value");
-		}else {
-			int inMegaBytes = kiloBytes / 1024;
-			int remainingKiloBytes = kiloBytes%1024;
-			String printKilobyte = kiloBytes + " KB " + " = " + inMegaBytes + "MB" + " and " + remainingKiloBytes + " KB ";
+		}
+		else{
+			String printKilobyte = XX + " KB " + "= " + inMegaBytes + " MB " + "and " + remainingKiloBytes + " KB";
 			return printKilobyte;
 		}
 		
-	}
+	
+		}
 
 	/**
 	 * 3. Barking Dog
@@ -150,17 +151,34 @@ public class EvaluationService {
 	 * numbers are the same up to three decimal places.
 	 * 
 	 * Otherwise, return false;
+	 * 
 	 */
 	public boolean areEqualByThreeDecimalPlaces(double firstNum, double secondNum) {
-		// TODO Write an implementation for this method declaration
-		if(Math.abs(firstNum - secondNum) < 1E6) {
+		/*
+		double a = (double) firstNum * 1000;
+		double b = (double) secondNum * 1000;
+		
+		if(a == b) {
 			return true;
-			
-		}else {
-			return false;
 		}
-	
-}
+		else
+			return false;
+	}
+*/
+		
+		
+		if(Math.abs(firstNum - secondNum) <1e6) {
+			return true;
+			}
+		else
+			return false;
+				
+				
+		}
+
+
+				
+				
 
 	/**
 	 * 5. Teen Number Checker
